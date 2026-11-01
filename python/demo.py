@@ -1,22 +1,27 @@
 """Kevoryn Quickstart - Python"""
 from openai import OpenAI
 import os
+import sys
 
-# Get your API key from https://kevoryn.com/keys
+# 在 https://kevoryn.com 的「API 密钥」页创建密钥
 client = OpenAI(
     base_url="https://api.kevoryn.com/v1",
-    api_key=os.getenv("KEVORYN_API_KEY", "sk-your-key-here")
+    api_key=os.getenv("KEVORYN_API_KEY", "sk-your-key-here"),
 )
 
-# Chat completion
+# 先列出这个密钥能用的模型（取决于密钥所属分组）
+models = client.models.list()
+ids = [m.id for m in models.data]
+print(f"可用模型: {len(ids)} 个")
+for mid in ids[:5]:
+    print(f"  - {mid}")
+
+model = os.getenv("KEVORYN_MODEL")
+if not model:
+    sys.exit("请设置环境变量 KEVORYN_MODEL 为上面列表中的一个模型")
+
 response = client.chat.completions.create(
-    model="claude-sonnet-4-6",
-    messages=[{"role": "user", "content": "用中文解释什么是 API"}]
+    model=model,
+    messages=[{"role": "user", "content": "用中文解释什么是 API"}],
 )
 print(response.choices[0].message.content)
-
-# List available models
-models = client.models.list()
-print(f"\n可用模型: {len(models.data)} 个")
-for m in models.data[:5]:
-    print(f"  - {m.id}")
