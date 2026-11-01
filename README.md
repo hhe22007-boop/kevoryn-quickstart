@@ -1,21 +1,29 @@
-# Kevoryn Quickstart 🚀
+# Kevoryn Quickstart
 
-一套 API 接入 66 个顶级 AI 模型。OpenAI 兼容，国内直连，按量计费。
+一个密钥接入 Claude、GPT、Gemini、Grok、DeepSeek 等 80+ 模型。保留 OpenAI、Anthropic、Gemini 原生协议,按量计费,没有月费,支付宝和微信充值。
 
-[![Models](https://img.shields.io/badge/Models-66-orange)](https://kevoryn.com/models)
-[![API](https://img.shields.io/badge/API-OpenAI_Compatible-blue)](https://kevoryn.com/docs)
-[![RMB](https://img.shields.io/badge/Billing-RMB-green)](https://kevoryn.com/pricing)
+[![Docs](https://img.shields.io/badge/Docs-kevoryn.com%2Fdocs-orange)](https://kevoryn.com/docs/)
+[![Models](https://img.shields.io/badge/Models-model--plaza-blue)](https://kevoryn.com/model-plaza)
+[![OpenAI Compatible](https://img.shields.io/badge/API-OpenAI_Compatible-green)](https://kevoryn.com/docs/api)
 
 ## 快速开始
 
-1. 注册 → [kevoryn.com/register](https://kevoryn.com/register)
-2. 获取 API Key → [kevoryn.com/keys](https://kevoryn.com/keys)
-3. 复制粘贴👇
+1. 注册并登录 → [kevoryn.com](https://kevoryn.com)
+2. 在「API 密钥」页创建密钥,选一个分组(不同分组能用的模型和价格不同)
+3. 查看这个密钥能用哪些模型,把下面示例里的 `YOUR_MODEL_ID` 换成其中一个
+
+```bash
+export KEVORYN_API_KEY=sk-your-key
+curl -s https://api.kevoryn.com/v1/models -H "Authorization: Bearer $KEVORYN_API_KEY"
+```
+
+模型必须在密钥所属分组的白名单里,否则会返回 `model_not_found`。
 
 ### Python
 ```bash
 pip install openai
 export KEVORYN_API_KEY=sk-your-key
+export KEVORYN_MODEL=YOUR_MODEL_ID
 python python/demo.py
 ```
 
@@ -23,43 +31,45 @@ python python/demo.py
 ```bash
 npm install openai
 export KEVORYN_API_KEY=sk-your-key
+export KEVORYN_MODEL=YOUR_MODEL_ID
 node nodejs/demo.js
 ```
 
 ### curl
 ```bash
 export KEVORYN_API_KEY=sk-your-key
+export KEVORYN_MODEL=YOUR_MODEL_ID
 bash examples/curl.sh
 ```
 
-## 主流模型
+## 接入地址
 
-| 模型 | 输出价格 (¥/M tokens) |
-|------|:---:|
-| GPT-5.5 | ¥252 |
-| Claude Opus 4.8 | ¥210 |
-| Claude Sonnet 4.6 | ¥126 |
-| Claude Haiku 4.5 | ¥42 |
-| Gemini 3.1 Pro | ¥100.8 |
-| DeepSeek V4 Pro | ¥9.6 |
-| DeepSeek V4 Flash | ¥4.8 |
-| Qwen 3.6 Plus | ¥9.6 |
-| Kimi K2.6 | ¥33.3 |
-| MiniMax M2.7 | ¥9.6 |
+| 协议 | 地址 | 认证 |
+|---|---|---|
+| OpenAI 兼容 | `https://api.kevoryn.com/v1` | `Authorization: Bearer 密钥` |
+| Anthropic 原生 | `https://api.kevoryn.com`(客户端追加 `/v1/messages`) | `x-api-key` 或 `Authorization: Bearer` |
+| Gemini 原生 | `https://api.kevoryn.com`(客户端追加 `/v1beta`) | `x-goog-api-key` |
 
-[查看全部 66 个模型 →](https://kevoryn.com/models)
+## 模型与价格
 
-## 为什么选 Kevoryn？
+各分组可用的模型和实时价格见 [模型广场](https://kevoryn.com/model-plaza)。价格因分组而异,这里不写死。
 
-- 🇨🇳 **国内直连**，无需 VPN
-- 💳 **支付宝/微信** 充值
-- 🔑 **OpenAI 兼容**，一行代码不改
-- 📦 **66 个模型**，一个 API 全接入
+## 工具接入
 
-## Cursor / Windsurf / Claude Code 配置
+Claude Code、Codex、Gemini CLI、OpenClaw、Hermes Agent、Cherry Studio、TRAE SOLO 的配置步骤都在 [文档中心](https://kevoryn.com/docs/),按 macOS、Linux、Windows 分别给出。
 
-设置 → API → 自定义端点：
+也可以用 [CC Switch 一键导入](https://kevoryn.com/docs/cc-switch),选好工具和模型,自动写入配置。
+
+## 通用客户端配置
+
+设置 → API → 自定义端点:
 ```
 Base URL: https://api.kevoryn.com/v1
 API Key:  sk-your-key-here
 ```
+
+## 链接
+
+- 官网:[kevoryn.com](https://kevoryn.com)
+- 文档:[kevoryn.com/docs](https://kevoryn.com/docs/)
+- 模型广场:[kevoryn.com/model-plaza](https://kevoryn.com/model-plaza)
